@@ -19,10 +19,10 @@
 
 |   Info      |        Description     |
 | ----------- | ---------------------- |
-|  Title      |       ProjectTitle     |
+|  Title      |       LegendaryYT      |
 | System URL  |      link_to_system    |
 | Video Link  |      link_to_video     |
 
 ## Project Summary
 
-This is a summary of the project!
+The current Youtube algorithm is great for recommending videos, but sometimes you want to see trending videos that are more specific to your searches.  It is easy to see trending videos on YouTube as it is, but with our project, you can filter trending videos and search through them using your own specific filters and criteria.  That way, you can still see popular, relevant videos, but they will be a better match for  what you’re looking for.
