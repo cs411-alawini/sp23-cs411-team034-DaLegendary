@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+"use strict";
+var valid = require('../lib');
+var validate = valid.validate;
+var validators = valid.validators;
+var dict = validators.dict;
+var v = validators.v;
+var nn = validators.nn;
+var str = validators.str;
+var len = validators.len;
+var rx = validators.rx;
+var num = validators.num;
+var intNum = validators.intNum;
+var bool = validators.bool;
+var keyMatch = validators.keyMatch;
+var any = validators.any;
+var range = validators.range;
+var val = validators.val;
+var key = validators.key;
+var arr = validators.arr;
+var opt = validators.opt;
+var spec = validators.spec;
+var warn = validators.warn;
+
+var dataSpec = spec({
+	a: v(num, warn(1), range(0, 7)),
+	x: opt(str),
+	y: {},
+	f: intNum,
+	q: v([intNum], len(5, 5)),
+	l: { '*': key('az') },
+	zz: dict(v(intNum, range(0)), [str]),
+	'*': keyMatch(rx(/^d$/))
+});
+
+var data = {
+	a: 8,
+	b: 'abc',
+	q: [1,'2',3],
+	y: {
+		z: 0
+	},
+	l: {
+		fu: 'bar'
+	},
+	zz: {
+		1: ['a', 'b'],
+		'5': [8, '7'],
+		'-7': []
+	},
+	'a b c': 345
+};
+//spec = num;
+//data = "1";
+var result = validate(data, dataSpec, {stopOnFirstError: false, errors: {needMessage: true}, warnings: {needMessage: true}});
+
+
+console.log(result);

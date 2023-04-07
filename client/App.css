@@ -1,0 +1,20 @@
+.video-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+.video {
+flex: 0 0 auto;
+margin-right: 1rem;
+}
+
+/* Optional: hide horizontal scrollbar on mobile */
+@media (max-width: 500px) {
+.video-container {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: auto;
+}
+}
+  

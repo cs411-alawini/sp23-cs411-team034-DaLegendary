@@ -1,0 +1,23 @@
+{
+	"name": "marked_types",
+	"version": "0.0.1",
+	"description": "",
+	"keywords": ["type", "instanceof"],
+	"author": {
+		"name": "Dmitry Smolin",
+		"email": "dimsmol@gmail.com"
+	},
+	"preferGlobal": false,
+	"private": false,
+	"engines": {
+		"node": ">=0.10.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dimsmol/marked_types"
+	},
+	"directories": {
+		"lib": "./lib"
+	},
+	"main": "./lib/index"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "CS411",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "devStart": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yu Zhang",
+  "license": "ISC",
+  "dependencies": {
+    "apis": "^0.1.2",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "google": "^2.1.0",
+    "googleapis": "^114.0.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.22"
+  }
+}
