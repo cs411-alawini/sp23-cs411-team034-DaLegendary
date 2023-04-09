@@ -2,6 +2,7 @@ from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS
 import pymysql
 import datetime
+import collections
 
 app = Flask(__name__)
 CORS(app)
@@ -20,11 +21,9 @@ db = pymysql.connect(host='34.30.55.76',
 @app.route('/api/add_favorite', methods=['POST'])
 def add_favorite():
     try:
-        # Get request data
-        data = request.get_json()
-        UserId= data['UserId']
-        VideoId = data['VideoId']
-        WatchListName = data['WatchListName']
+        UserId = request.args.get('UserId')
+        VideoId = request.args.get('VideoId')
+        WatchListName = request.args.get('WatchListName')
         VideoAddedDate = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
         with db.cursor() as cursor:
@@ -126,7 +125,7 @@ def delete_video():
     
 # 5.1 Define API route ADVANCEDSQL1 - CountCategory
 @app.route('/api/countCategories', methods=['GET'])
-def countCategories():
+def count_categories():
     try:
         with db.cursor() as cursor:
             # Execute SQL query
@@ -171,6 +170,57 @@ def trending_videos():
             results = cursor.fetchall()
             # Convert results to JSON format string and encode with UTF-8
             response_data = jsonify(results).get_data().decode('utf8')
+            # Create a new response object and pass the encoded string as data
+            response = make_response(response_data)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+    except Exception as e:
+        print('Error:', e)
+        return jsonify({'error': str(e)})
+    
+# Define API route to get the favorite videos of a user
+@app.route('/api/favorites', methods=['GET'])
+def favorite_videos():
+    try:
+        with db.cursor() as cursor:
+            UserId = request.args.get('UserId')
+            # Execute SQL query
+            sql = """
+                    SELECT f.WatchListName, v.Title, v.VideoId, n.Likes, n.Dislikes, n.ViewCount
+                    FROM Favorites f NATURAL JOIN Video v JOIN (
+                        SELECT VideoId, ViewCount, Likes, Dislikes
+                        FROM VideoStats
+                        WHERE (VideoId, TrendingDate) IN (
+                            SELECT VideoId, MAX(TrendingDate)
+                            FROM VideoStats
+                            GROUP BY VideoId
+                        )
+                    ) AS n USING (VideoId) 
+                    WHERE UserId = %s
+            """
+            cursor.execute(sql, UserId)
+            # Get query results
+            results = cursor.fetchall()
+            print(results)
+            new_results = collections.defaultdict(list)
+            for r in results:
+                info = {}
+                info['VideoId'] = r['VideoId']
+                info['Title'] = r['Title']
+                info['Likes'] = r['Likes']
+                info['Dislikes'] = r['Dislikes']
+                info['ViewCount'] = r['ViewCount']
+                new_results[r['WatchListName']].append(info)
+
+            output_list = []
+
+            for key, value in new_results.items():
+                output_dict = {}
+                output_dict["WatchListName"] = key
+                output_dict["Videos"] = value
+                output_list.append(output_dict)
+            # Convert results to JSON format string and encode with UTF-8
+            response_data = jsonify(output_list).get_data().decode('utf8')
             # Create a new response object and pass the encoded string as data
             response = make_response(response_data)
             response.headers['Content-Type'] = 'application/json'

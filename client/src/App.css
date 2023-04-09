@@ -176,6 +176,12 @@ header button:hover {
   background-color: #1c1c1c;
 }
 
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 h2 {
   color: white;
 }
