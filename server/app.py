@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, make_response, request
+from flask_cors import CORS
 import pymysql
 import datetime
 
 app = Flask(__name__)
+CORS(app)
 app.config['JSON_AS_ASCII'] = False
 app.config['JSON_SORT_KEYS'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -43,11 +45,13 @@ def add_favorite():
 def search_videos():
     try:
         with db.cursor() as cursor:
-            data = request.get_json()
-            CategoryName = data['CategoryName']
-            UserText = data['UserText']
-            # Execute SQL query
-            sql = """SELECT v.Title, v.VideoId, v.ChannelId, n.Likes, n.Dislikes, n.ViewCount
+            CategoryName = request.args.get('CategoryName')
+            UserText = request.args.get('UserText')
+            print("request: ", request)
+            print("CategoryName: ", CategoryName)
+            if CategoryName is not None and UserText is not None:
+                # Execute SQL query
+                sql = """SELECT v.Title, v.VideoId, v.ChannelId, n.Likes, n.Dislikes, n.ViewCount
                     FROM Video v JOIN (
                         SELECT VideoId, ViewCount, Likes, Dislikes
                         FROM VideoStats
@@ -60,15 +64,17 @@ def search_videos():
                     WHERE v.CategoryName = %s AND v.Title LIKE CONCAT('%%', %s, '%%')
                     ORDER BY n.ViewCount DESC
                     LIMIT 15"""
-            cursor.execute(sql, (CategoryName, UserText))
-            # Get query results
-            results = cursor.fetchall()
-            # Convert results to JSON format string and encode with UTF-8
-            response_data = jsonify(results).get_data().decode('utf8')
-            # Create a new response object and pass the encoded string as data
-            response = make_response(response_data)
-            response.headers['Content-Type'] = 'application/json'
-            return response
+                cursor.execute(sql, (CategoryName, UserText))
+                # Get query results
+                results = cursor.fetchall()
+                # Convert results to JSON format string and encode with UTF-8
+                response_data = jsonify(results).get_data().decode('utf8')
+                # Create a new response object and pass the encoded string as data
+                response = make_response(response_data)
+                response.headers['Content-Type'] = 'application/json'
+                return response
+            else:
+                return jsonify({'error': 'Invalid data'})
     except Exception as e:
         print('Error:', e)
         return jsonify({'error': str(e)})
