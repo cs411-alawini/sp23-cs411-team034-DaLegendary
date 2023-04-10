@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://127.0.0.1:5000', // 这里是你Python Flask应用程序的地址和端口
+      target: 'http://127.0.0.1:3000', // the address and port for the current react app
       changeOrigin: true,
     })
   );

@@ -86,8 +86,8 @@ export default function Settings() {
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Video Number</th>
+                            <th>Watchlist Name</th>
+                            <th>Number of Videos</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

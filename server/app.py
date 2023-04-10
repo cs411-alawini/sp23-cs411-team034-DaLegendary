@@ -8,7 +8,7 @@ import collections
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*", "supports_credentials": True}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-socketio = SocketIO(app, cors_allowed_origins="*")
+# socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 app.config['JSON_AS_ASCII'] = False
