@@ -3,10 +3,18 @@ import Axios from 'axios'
 
 export default function Video(props) {
 
+  const UserId = '08p4cz' // hard-coded for now
+
+  const handleButtonAction = () => {
+    if (props.page === 'Home') {
+      handleAddFavorite(props);
+    } else if (props.page === 'WatchList') {
+      handleRemoveFavorite(props);
+    }
+  }
 
   const handleAddFavorite = (video) => {
     console.log(video)
-    const UserId = '08p4cz' // hard-coded for now
     const WatchListName = window.prompt('Enter Watchlist Name:');
     if (WatchListName) {
       Axios.post(`http://127.0.0.1:5000/api/add_favorite?UserId=${UserId}&VideoId=${video.videoid}&WatchListName=${WatchListName}`)
@@ -19,6 +27,19 @@ export default function Video(props) {
     }
   };
 
+  const handleRemoveFavorite = (video) => {
+    Axios.delete(`http://127.0.0.1:5000/api/delete_video?UserId=${UserId}&VideoId=${video.videoid}&WatchListName=${video.watchlistname}`)
+      .then((response) => {
+        alert('Video has been removed from your favorites');
+      })
+      .catch((error) => {
+        console.log('delete fail')
+        console.error(error);
+      });
+  };
+
+  const buttonLabel = props.page === 'Home' ? 'Add to favorites' : 'Delete';
+
   return (
     <div className="video">
       <img src={props.thumbnail} alt="Video thumbnail" />
@@ -26,7 +47,7 @@ export default function Video(props) {
         <h2>{props.title}</h2>
         <p>Likes: {props.likes}</p>
         <p>Views: {props.views}</p>
-        <button onClick={() => handleAddFavorite(props)}>Add to favorites</button>
+        <button onClick={handleButtonAction}>{buttonLabel}</button>
       </div>
     </div>
   );

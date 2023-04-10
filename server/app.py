@@ -108,16 +108,16 @@ def update_watchlistname():
 @cross_origin()
 def delete_video():
     try:
-        # Get the user_id and video_id from the request data
-        data = request.get_json()
-        UserId= data['UserId']
-        VideoId = data['VideoId']
+        # Get the user_id, video_id watchlist_name from the request data
+        UserId = request.args.get('UserId')
+        VideoId = request.args.get('VideoId')
+        WatchListName = request.args.get('WatchListName')
         # Open a connection to the database
         with db.cursor() as cursor:
             # Execute the DELETE statement
             sql = """DELETE FROM Favorites
-                     WHERE UserId = %s AND VideoId = %s"""
-            cursor.execute(sql, (UserId, VideoId))
+                     WHERE UserId = %s AND VideoId = %s AND WatchListName = %s"""
+            cursor.execute(sql, (UserId, VideoId, WatchListName))
             # Commit the changes to the database
             db.commit()
             # Return a success message
