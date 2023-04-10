@@ -41,7 +41,7 @@ export default function Home() {
 
 
   const trendingVideoElements = trendingVideos.map((video) => (
-    <Video key={video.VideoId} title={video.Title} data-title={video.Title} likes={video.Likes} views={video.ViewCount} thumbnail={`http://img.youtube.com/vi/${video.VideoId}/hqdefault.jpg`}>
+    <Video key={video.VideoId} videoid={video.VideoId} title={video.Title} data-title={video.Title} likes={video.Likes} views={video.ViewCount} thumbnail={`http://img.youtube.com/vi/${video.VideoId}/hqdefault.jpg`}>
       <button onClick={() => handleAddFavorite(video)}>Add to favorites</button>
     </Video>
   ));
@@ -77,7 +77,6 @@ export default function Home() {
             <a href="/settings">Settings</a>
           </div>
         </div>
-        {/* <button onClick={() => window.location.href = '/watchlist'}>Watchlist</button> */}
       </header>
 
 

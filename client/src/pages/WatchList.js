@@ -8,7 +8,6 @@ import Axios from 'axios'
 
 export default function WatchList() {
   const [watchlists, setWatchlists] = useState([]);
-  const [newWatchlistName, setNewWatchlistName] = useState('');
 
   const data = {
     UserId: '08p4cz' // hard-coded for now

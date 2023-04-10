@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
-from flask_socketio import SocketIO, emit
 import pymysql
 import datetime
 import collections
@@ -8,8 +7,6 @@ import collections
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*", "supports_credentials": True}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-# socketio = SocketIO(app, cors_allowed_origins="*")
-
 
 app.config['JSON_AS_ASCII'] = False
 app.config['JSON_SORT_KEYS'] = False
@@ -22,13 +19,6 @@ db = pymysql.connect(host='34.30.55.76',
                      password='group034', 
                      db='video_info', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 
-# @app.route('/api/update_watchlistname', methods=['OPTIONS'])
-# def options_update_watchlistname():
-#     response = flask.make_response()
-#     response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:3000')
-#     response.headers.add('Access-Control-Allow-Methods', 'PUT')
-#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-#     return response
 
 # 1.Define API route for adding videos to favorites - INSERT
 @app.route('/api/add_favorite', methods=['POST'])
@@ -94,7 +84,6 @@ def search_videos():
 
 # 3. Define API route for updating a watchlist name - UPDATE
 @app.route('/api/update_watchlistname', methods=['PUT'])
-# @socketio.on('client-server')
 @cross_origin()
 def update_watchlistname():
     try:
