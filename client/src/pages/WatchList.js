@@ -14,7 +14,7 @@ export default function WatchList() {
     UserId: '08p4cz' // hard-coded for now
   };
 
-  Axios.get('http://127.0.0.1:5000/api/favorites', {
+  Axios.get('http://127.0.0.1:5000/api/watchlist_videos', {
     params: data
   }).then(response => {
     setWatchlists(response.data);

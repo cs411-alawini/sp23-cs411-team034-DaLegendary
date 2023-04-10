@@ -1,11 +1,16 @@
 from flask import Flask, jsonify, make_response, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
+from flask_socketio import SocketIO, emit
 import pymysql
 import datetime
 import collections
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app, resources={r"/*": {"origins": "*", "supports_credentials": True}})
+app.config['CORS_HEADERS'] = 'Content-Type'
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+
 app.config['JSON_AS_ASCII'] = False
 app.config['JSON_SORT_KEYS'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -17,8 +22,17 @@ db = pymysql.connect(host='34.30.55.76',
                      password='group034', 
                      db='video_info', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 
+# @app.route('/api/update_watchlistname', methods=['OPTIONS'])
+# def options_update_watchlistname():
+#     response = flask.make_response()
+#     response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:3000')
+#     response.headers.add('Access-Control-Allow-Methods', 'PUT')
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+#     return response
+
 # 1.Define API route for adding videos to favorites - INSERT
 @app.route('/api/add_favorite', methods=['POST'])
+@cross_origin()
 def add_favorite():
     try:
         UserId = request.args.get('UserId')
@@ -80,13 +94,14 @@ def search_videos():
 
 # 3. Define API route for updating a watchlist name - UPDATE
 @app.route('/api/update_watchlistname', methods=['PUT'])
+# @socketio.on('client-server')
+@cross_origin()
 def update_watchlistname():
     try:
         with db.cursor() as cursor:
-            data = request.get_json()
-            UserId= data['UserId']
-            NewWatchListName = data['NewWatchListName']
-            WatchListName = data['WatchListName']
+            UserId = request.args.get('UserId')
+            NewWatchListName = request.args.get('NewWatchListName')
+            WatchListName = request.args.get('WatchListName')
             # Execute SQL query
             sql = """UPDATE Favorites
                     SET WatchListName = %s
@@ -101,6 +116,7 @@ def update_watchlistname():
 
 # 4. Define API route for deleting a video from favorites - DELETE
 @app.route('/api/delete_video', methods=['DELETE'])
+@cross_origin()
 def delete_video():
     try:
         # Get the user_id and video_id from the request data
@@ -125,6 +141,7 @@ def delete_video():
     
 # 5.1 Define API route ADVANCEDSQL1 - CountCategory
 @app.route('/api/countCategories', methods=['GET'])
+@cross_origin()
 def count_categories():
     try:
         with db.cursor() as cursor:
@@ -148,6 +165,7 @@ def count_categories():
 
 # 5.2 Define API route ADVANCEDSQL2 - DisplayTrendingVids
 @app.route('/api/trending', methods=['GET'])
+@cross_origin()
 def trending_videos():
     try:
         with db.cursor() as cursor:
@@ -179,8 +197,9 @@ def trending_videos():
         return jsonify({'error': str(e)})
     
 # Define API route to get the favorite videos of a user
-@app.route('/api/favorites', methods=['GET'])
-def favorite_videos():
+@app.route('/api/watchlist_videos', methods=['GET'])
+@cross_origin()
+def watchlist_videos():
     try:
         with db.cursor() as cursor:
             UserId = request.args.get('UserId')
@@ -201,7 +220,6 @@ def favorite_videos():
             cursor.execute(sql, UserId)
             # Get query results
             results = cursor.fetchall()
-            print(results)
             new_results = collections.defaultdict(list)
             for r in results:
                 info = {}
@@ -230,6 +248,7 @@ def favorite_videos():
         return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=5000,debug=True)
+    # app.run(debug=True)
 
 #END OF BACKEND CODE.

@@ -46,6 +46,9 @@ export default function Home() {
     </Video>
   ));
 
+  const handleDropdownClick = () => {
+    setShowMenu((prevShowMenu) => !prevShowMenu);
+  };
 
   return (
     <div className="App">
@@ -64,8 +67,17 @@ export default function Home() {
           </select>
           <button onClick={handleSearch}>Search</button>
         </div>
-
-        <button onClick={() => window.location.href = '/watchlist'}>Watchlist</button>
+        <div className="dropdown">
+          <button className="dropbtn" onClick={handleDropdownClick}>
+            Dropdown
+            <i className={showMenu ? "fa fa-caret-up" : "fa fa-caret-down"}></i>
+          </button>
+          <div className={showMenu ? "dropdown-content show" : "dropdown-content"} ref={menuRef}>
+            <a href="/watchlist">Watchlist</a>
+            <a href="/settings">Settings</a>
+          </div>
+        </div>
+        {/* <button onClick={() => window.location.href = '/watchlist'}>Watchlist</button> */}
       </header>
 
 
