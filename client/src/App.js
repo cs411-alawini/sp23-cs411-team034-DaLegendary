@@ -24,19 +24,28 @@ export default function Home() {
     const categoryName = document.getElementById('category-select').value;
     const userText = document.getElementById('search-input').value;
 
+    if (categoryName === "All Categories") {
+      Axios.get('http://127.0.0.1:5000//api/trending')
+        .then(response => {
+          setTrendingVideos(response.data);
+        }).catch(error => {
+          console.error(error);
+        });
+    } else {
+      const data = {
+        CategoryName: categoryName,
+        UserText: userText
+      };
 
-    const data = {
-      CategoryName: categoryName,
-      UserText: userText
-    };
+      Axios.get('http://127.0.0.1:5000/api/search', {
+        params: data
+      }).then(response => {
+        setTrendingVideos(response.data);
+      }).catch(error => {
+        console.error(error);
+      });
+    }
 
-    Axios.get('http://127.0.0.1:5000/api/search', {
-      params: data
-    }).then(response => {
-      setTrendingVideos(response.data);
-    }).catch(error => {
-      console.error(error);
-    });
   };
 
 
@@ -66,7 +75,7 @@ export default function Home() {
         <div className="search-bar">
           <input id="search-input" type="text" placeholder="Search videos..." />
           <select id="category-select">
-            <option value="">All categories</option>
+            <option value="All Categories">All Categories</option>
             {Object.entries(categories).map(([key, value]) => (
               <option key={key} value={key}>
                 {value}
@@ -83,6 +92,7 @@ export default function Home() {
           <div className={showMenu ? "dropdown-content show" : "dropdown-content"} ref={menuRef}>
             <a href="/watchlist">Watchlist</a>
             <a href="/settings">Settings</a>
+            <a href="/trendings">Trendings</a>
           </div>
         </div>
       </header>

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client"
 import App from "./App"
 import WatchList from "./pages/WatchList"
 import Settings from "./pages/Settings"
+import Trendings from "./pages/Trendings"
 
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: 'settings',
         element: <Settings />
+    },
+    {
+        path: 'trendings',
+        element: <Trendings />
     }
 ])
 
