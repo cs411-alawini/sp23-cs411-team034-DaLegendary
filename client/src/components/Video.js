@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios'
+import {Row, Col, Card, Container} from "reactstrap"
 
 export default function Video(props) {
 
@@ -41,14 +42,19 @@ export default function Video(props) {
   const buttonLabel = props.page === 'Home' ? 'Add to favorites' : 'Delete';
 
   return (
-    <div className="video">
-      <img src={props.thumbnail} alt="Video thumbnail" />
-      <div className="video-info">
-        <h2>{props.title}</h2>
-        <p>Likes: {props.likes}</p>
-        <p>Views: {props.views}</p>
-        <button onClick={handleButtonAction}>{buttonLabel}</button>
-      </div>
+  <div className="video">
+    <img src={props.thumbnail} alt="Video thumbnail" />
+    <div className="video-info">
+      <h2>{props.title}</h2>
+      <p>Likes: {props.likes}</p>
+      <p>Views: {props.views}</p>
+      <button onClick={handleButtonAction}>{buttonLabel}</button>
     </div>
+    </div>
+  
   );
 }
+
+
+
+ 
