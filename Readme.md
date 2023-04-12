@@ -3,7 +3,7 @@ This is the repository to store the project of team034.
 
 # Functionality
 ## Insert
-User can Save one video to target watch list.
+User can save videso to the target watchlist.
 ![](/images/insert.gif)
 
 ## Search
