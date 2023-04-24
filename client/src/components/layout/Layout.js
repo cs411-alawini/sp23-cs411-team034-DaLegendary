@@ -3,7 +3,7 @@ import styling from "./Layout.module.css";
 
 function Layout(props) {
   return (
-    <div>
+    <div className="App">
       <MainNavigation />
       <main className={styling.main}>{props.children}</main>
     </div>

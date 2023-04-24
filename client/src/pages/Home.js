@@ -1,4 +1,3 @@
-import { Row, Col, Container, Card } from "react-bootstrap";
 import "../App.css";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -9,7 +8,6 @@ import Axios from "axios";
 export default function Home() {
 
   const [showMenu, setShowMenu] = useState(false);
-  const menuRef = useRef();
 
 
   const [trendingVideos, setTrendingVideos] = useState([]);
@@ -64,9 +62,6 @@ export default function Home() {
     </Video>
   ));
 
-  const handleDropdownClick = () => {
-    setShowMenu((prevShowMenu) => !prevShowMenu);
-  };
 
   return (
     <div className="App">

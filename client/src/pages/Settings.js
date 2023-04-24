@@ -42,9 +42,14 @@ export default function Settings() {
         const UserId = '08p4cz'; // hard-coded for now
         const WatchListName = oldWatchListName;
         const NewWatchListName = newWatchListName;
-        Axios.put(`http://127.0.0.1:5000/api/update_watchlistname?UserId=${UserId}&WatchListName=${WatchListName}&NewWatchListName=${NewWatchListName}`).catch(error => {
+        Axios.put(`http://127.0.0.1:5000/api/update_watchlistname?UserId=${UserId}&WatchListName=${WatchListName}&NewWatchListName=${NewWatchListName}`)
+        .then(() => {
+            fetchWatchlists(); // 获取最新的 watchlists 数据
+        })
+        .catch(error => {
             console.error(error);
         });
+
 
         setEditingWatchlist(null);
     };
