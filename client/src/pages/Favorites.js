@@ -23,9 +23,6 @@ export default function Favorites() {
     UserId: '08p4cz' // hard-coded for now
   };
 
-  // const handleUpdateWatchlists = (updatedWatchlists) => {
-  //   setWatchlists(updatedWatchlists);
-  // };
 
   const watchlistElements = watchlists.map((watchlist, watchlistIndex) => (
     <div key={watchlistIndex}>
@@ -35,14 +32,13 @@ export default function Favorites() {
           <Video
             key={video.VideoId}
             videoid={video.VideoId}
-            page='WatchList'
+            page='Favorites'
             title={video.Title}
             data-title={video.Title}
             likes={video.Likes}
             views={video.ViewCount}
             watchlistname={watchlist.WatchListName}
             thumbnail={`http://img.youtube.com/vi/${video.VideoId}/hqdefault.jpg`}
-            // onUpdateWatchlists={handleUpdateWatchlists}
           >
           </Video>
         ))}

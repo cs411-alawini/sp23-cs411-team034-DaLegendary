@@ -275,6 +275,41 @@ def count_categories_procedure ():
     except Exception as e:
         print('Error:', e)
         return jsonify({'error': str(e)})
+    
+# Define API route to get the favorite videos of a user
+@app.route('/api/most_favorited_videos', methods=['GET'])
+@cross_origin()
+def most_favorited_videos():
+    try:
+        with db.cursor() as cursor:
+            sql = """
+                    SELECT Video.VideoId, Video.Title, VideoStats.ViewCount, VideoStats.Likes, HotVideo.SavedCount
+                    FROM Video
+                    INNER JOIN (
+                        SELECT VideoId, MAX(TrendingDate) AS MaxTrendingDate
+                        FROM VideoStats
+                        GROUP BY VideoId
+                    ) AS LatestVideoStats
+                    ON Video.VideoId = LatestVideoStats.VideoId
+                    INNER JOIN VideoStats
+                    ON Video.VideoId = VideoStats.VideoId AND LatestVideoStats.MaxTrendingDate = VideoStats.TrendingDate
+                    INNER JOIN HotVideo
+                    ON Video.VideoId = HotVideo.VideoId
+                    ORDER BY HotVideo.SavedCount DESC
+            """
+            cursor.execute(sql)
+            # Get query results
+            results = cursor.fetchall()
+            # Convert results to JSON format string and encode with UTF-8
+            response_data = jsonify(results).get_data().decode('utf8')
+            # Create a new response object and pass the encoded string as data
+            response = make_response(response_data)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+    except Exception as e:
+        print('Error:', e)
+        return jsonify({'error': str(e)})
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000,debug=True)

@@ -15,6 +15,9 @@ function MainNavigation() {
             <Link to="/favorites">Favorites</Link>
           </li>
           <li>
+            <Link to="/mostFavoriedVideos">MostFavoriedVideos</Link>
+          </li>
+          <li>
             <Link to="/categories">Categories</Link>
           </li>
           <li>

@@ -16,7 +16,7 @@ export default function Video(props) {
   const handleButtonAction = () => {
     if (props.page === 'Home') {
       handleAddFavorite(props);
-    } else if (props.page === 'WatchList') {
+    } else if (props.page === 'Favorites') {
       handleRemoveFavorite(props);
     }
   }
@@ -58,7 +58,7 @@ export default function Video(props) {
       <img src={props.thumbnail} alt="Video thumbnail" onClick={handleClick}/>
       <div className="video-info">
         <h2>{props.title}</h2>
-        <p>Likes: {props.likes}</p>
+        {props.page === 'MostFavoriedVideos' ? <p>SavedCount: {props.savedcount}</p> : <p>Likes: {props.likes}</p>}
         <p>Views: {props.views}</p>
         <button onClick={handleButtonAction}>{buttonLabel}</button>
       </div>

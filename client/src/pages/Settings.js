@@ -44,7 +44,7 @@ export default function Settings() {
         const NewWatchListName = newWatchListName;
         Axios.put(`http://127.0.0.1:5000/api/update_watchlistname?UserId=${UserId}&WatchListName=${WatchListName}&NewWatchListName=${NewWatchListName}`)
         .then(() => {
-            fetchWatchlists(); // 获取最新的 watchlists 数据
+            fetchWatchlists(); // get the updated data of watchlists
         })
         .catch(error => {
             console.error(error);
