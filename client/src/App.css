@@ -117,13 +117,13 @@
 
 
 /* for search bar  */
-header {
-  background-color: #1c1c1c;
-  color: white;
-  padding: 1rem;
+.search-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 header h1 {
@@ -294,7 +294,8 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url(https://assets.nflxext.com/ffe/siteui/vlv3/f1c3c4eb-2fea-42c7-9ebd-1c093bd8a69d/2ca6fba7-5902-4b3b-8f40-bc4e500e84a5/US-en-20230403-popsignuptwoweeks-perspective_alpha_website_large.jpg);
+  background-image: url('../pexels-felix-mittermeier-956999.jpg');
+  /* background-image: url(https://assets.nflxext.com/ffe/siteui/vlv3/f1c3c4eb-2fea-42c7-9ebd-1c093bd8a69d/2ca6fba7-5902-4b3b-8f40-bc4e500e84a5/US-en-20230403-popsignuptwoweeks-perspective_alpha_website_large.jpg); */
   background-size: cover;
   background-position: center;
   z-index: -1;

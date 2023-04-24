@@ -77,10 +77,6 @@ export default function Settings() {
     return (
         <div className='App'>
             <header><div className="poster"></div>
-                <button onClick={() => window.location.href = '/'}>Home</button>
-                <div className="header-container">
-                    <h1>Settings</h1>
-                </div>
             </header>
             <div>
                 <table>

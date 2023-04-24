@@ -31,6 +31,7 @@ export default function Video(props) {
     Axios.delete(`http://127.0.0.1:5000/api/delete_video?UserId=${UserId}&VideoId=${video.videoid}&WatchListName=${video.watchlistname}`)
       .then((response) => {
         alert('Video has been removed from your favorites');
+        // props.onUpdateWatchlists(response.data);
       })
       .catch((error) => {
         console.log('delete fail')
