@@ -245,7 +245,7 @@ def trending_videos_procedure():
         with db.cursor() as cursor:
 
             cursor.callproc('GetPopularVideos')
-            result = cursor.fetchall()  # 获取结果集
+            result = cursor.fetchall()  # get the data
 
             response_data = jsonify(result).get_data().decode('utf8')
             # Create a new response object and pass the encoded string as data
@@ -264,7 +264,7 @@ def count_categories_procedure ():
     try:
         with db.cursor() as cursor:
             # Execute SQL query
-            cursor.callproc('CountCategories')
+            cursor.callproc('CountCategories', (0,))
             result = cursor.fetchall()  # get the data
             # Convert results to JSON format string and encode with UTF-8
             response_data = jsonify(result).get_data().decode('utf8')

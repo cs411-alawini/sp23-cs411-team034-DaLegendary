@@ -24,7 +24,7 @@ export default function Home() {
     const userText = document.getElementById('search-input').value;
 
     if (categoryName === "All Categories") {
-      Axios.get('http://127.0.0.1:5000//api/trending')
+      Axios.get('http://127.0.0.1:5000//api/trending_procedure')
         .then(response => {
           setTrendingVideos(response.data);
         }).catch(error => {
