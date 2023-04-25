@@ -1,9 +1,9 @@
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import "../App.css";
-
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
-function QueryI() {
+export default function QueryI() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -20,24 +20,17 @@ function QueryI() {
     <div className="App">
       <div className="poster"></div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Category Name</th>
-            <th>Number of Favorites</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((category) => (
-            <tr key={category.CategoryName}>
-              <td>{category.CategoryName}</td>
-              <td>{category.num_favorites}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <BarChart width={800} height={600} data={categories}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="CategoryName" tick={{ fill: '#ffffff' }} />
+          <YAxis tick={{ fill: '#ffffff' }}/>
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="num_favorites" fill="#ffffff" />
+        </BarChart>
+      </div>
     </div>
   );
 }
 
-export default QueryI;

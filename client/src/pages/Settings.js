@@ -1,4 +1,5 @@
 import '../App.css';
+import { UserId } from "../data/config.js";
 
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
@@ -10,7 +11,7 @@ export default function Settings() {
     const [editingWatchlist, setEditingWatchlist] = useState(null);
 
     const config = {
-        UserId: '08p4cz' // hard-coded for now
+        UserId: UserId  // hard-coded for now
     };
 
     const fetchWatchlists = () => {

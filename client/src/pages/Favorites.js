@@ -2,6 +2,7 @@ import '../App.css';
 
 import React, { useState, useEffect } from 'react'
 import Video from '../components/Video'
+import { UserId } from "../data/config.js";
 import Axios from 'axios'
 
 
@@ -20,7 +21,7 @@ export default function Favorites() {
   }, []);
 
   const data = {
-    UserId: '08p4cz' // hard-coded for now
+    UserId: UserId // hard-coded for now
   };
 
 
