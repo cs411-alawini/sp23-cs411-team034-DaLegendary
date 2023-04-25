@@ -65,7 +65,7 @@ def search_videos():
                         )
                     ) AS n USING (VideoId) 
                     WHERE v.CategoryName = %s AND v.Title LIKE CONCAT('%%', %s, '%%')
-                    ORDER BY n.ViewCount DESC
+                    ORDER BY RAND()
                     LIMIT 15"""
                 cursor.execute(sql, (CategoryName, UserText))
                 # Get query results
@@ -170,7 +170,7 @@ def trending_videos():
                         )
                     ) AS n USING (VideoId) 
                     WHERE n.Likes + n.Dislikes != 0 AND n.Likes / (n.Likes + n.Dislikes) > 0.95 AND n.ViewCount >= 10000
-                    ORDER BY n.ViewCount DESC
+                    ORDER BY RAND()
                     LIMIT 15"""
             cursor.execute(sql)
             # Get query results
@@ -235,9 +235,83 @@ def watchlist_videos():
     except Exception as e:
         print('Error:', e)
         return jsonify({'error': str(e)})
+    
+
+# Define API route to call the stored procedure - DisplayTrendingVids
+@app.route('/api/trending_procedure', methods=['GET'])
+@cross_origin()
+def trending_videos_procedure():
+    try:
+        with db.cursor() as cursor:
+
+            cursor.callproc('GetPopularVideos')
+            result = cursor.fetchall()  # 获取结果集
+
+            response_data = jsonify(result).get_data().decode('utf8')
+            # Create a new response object and pass the encoded string as data
+            response = make_response(response_data)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+    except Exception as e:
+        print('Error:', e)
+        return jsonify({'error': str(e)})
+    
+
+# Define API route for CountCategory procedure
+@app.route('/api/countCategories_procedure', methods=['GET'])
+@cross_origin()
+def count_categories_procedure ():
+    try:
+        with db.cursor() as cursor:
+            # Execute SQL query
+            cursor.callproc('CountCategories')
+            result = cursor.fetchall()  # get the data
+            # Convert results to JSON format string and encode with UTF-8
+            response_data = jsonify(result).get_data().decode('utf8')
+            # Create a new response object and pass the encoded string as data
+            response = make_response(response_data)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+    except Exception as e:
+        print('Error:', e)
+        return jsonify({'error': str(e)})
+    
+# Define API route to get the favorite videos of a user
+@app.route('/api/most_favorited_videos', methods=['GET'])
+@cross_origin()
+def most_favorited_videos():
+    try:
+        with db.cursor() as cursor:
+            sql = """
+                    SELECT Video.VideoId, Video.Title, VideoStats.ViewCount, VideoStats.Likes, HotVideo.SavedCount
+                    FROM Video
+                    INNER JOIN (
+                        SELECT VideoId, MAX(TrendingDate) AS MaxTrendingDate
+                        FROM VideoStats
+                        GROUP BY VideoId
+                    ) AS LatestVideoStats
+                    ON Video.VideoId = LatestVideoStats.VideoId
+                    INNER JOIN VideoStats
+                    ON Video.VideoId = VideoStats.VideoId AND LatestVideoStats.MaxTrendingDate = VideoStats.TrendingDate
+                    INNER JOIN HotVideo
+                    ON Video.VideoId = HotVideo.VideoId
+                    ORDER BY HotVideo.SavedCount DESC
+            """
+            cursor.execute(sql)
+            # Get query results
+            results = cursor.fetchall()
+            # Convert results to JSON format string and encode with UTF-8
+            response_data = jsonify(results).get_data().decode('utf8')
+            # Create a new response object and pass the encoded string as data
+            response = make_response(response_data)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+    except Exception as e:
+        print('Error:', e)
+        return jsonify({'error': str(e)})
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000,debug=True)
-    # app.run(debug=True)
 
 #END OF BACKEND CODE.

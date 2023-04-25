@@ -1,4 +1,5 @@
 import '../App.css';
+import { UserId } from "../data/config.js";
 
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
@@ -10,7 +11,7 @@ export default function Settings() {
     const [editingWatchlist, setEditingWatchlist] = useState(null);
 
     const config = {
-        UserId: '08p4cz' // hard-coded for now
+        UserId: UserId  // hard-coded for now
     };
 
     const fetchWatchlists = () => {
@@ -42,9 +43,14 @@ export default function Settings() {
         const UserId = '08p4cz'; // hard-coded for now
         const WatchListName = oldWatchListName;
         const NewWatchListName = newWatchListName;
-        Axios.put(`http://127.0.0.1:5000/api/update_watchlistname?UserId=${UserId}&WatchListName=${WatchListName}&NewWatchListName=${NewWatchListName}`).catch(error => {
+        Axios.put(`http://127.0.0.1:5000/api/update_watchlistname?UserId=${UserId}&WatchListName=${WatchListName}&NewWatchListName=${NewWatchListName}`)
+        .then(() => {
+            fetchWatchlists(); // get the updated data of watchlists
+        })
+        .catch(error => {
             console.error(error);
         });
+
 
         setEditingWatchlist(null);
     };
@@ -77,10 +83,6 @@ export default function Settings() {
     return (
         <div className='App'>
             <header><div className="poster"></div>
-                <button onClick={() => window.location.href = '/'}>Home</button>
-                <div className="header-container">
-                    <h1>Settings</h1>
-                </div>
             </header>
             <div>
                 <table>

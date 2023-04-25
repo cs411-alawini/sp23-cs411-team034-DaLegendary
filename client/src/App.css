@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #282c3400;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -46,13 +46,42 @@
   flex-wrap: wrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  justify-content: space-around; /* 控制每行之间的空白间隔 */
+  justify-content: space-around;
 }
+
+.modal {
+  position: fixed; /* make the modal a fixed positioned element */
+  top: 50%; /* align the modal to the vertical center of the viewport */
+  left: 50%; /* align the modal to the horizontal center of the viewport */
+  transform: translate(-50%, -50%); /* translate the modal to the center */
+  z-index: 999; /* set the modal's z-index higher than the video card's */
+  /* other styles */
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 80%;
+  height: 80%;
+  /* add styles for modal content */
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* add styles for close button */
+}
+
 
 .video {
   flex: 0 0 auto;
+  position: relative;
   margin-right: 2rem;
-  width: 300px;
+  width: 16%;
   border-radius: 8px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
@@ -99,9 +128,9 @@
 }
 
 .video-info button {
-  margin-top: 1rem;
+  margin-top: 0rem;
   padding: 0.5rem 1rem;
-  background-color: #f44336;
+  background-color: #2b3f53;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -112,13 +141,13 @@
 }
 
 .video-info button:hover {
-  background-color: #d32f2f;
+  background-color: #1b0020;
 }
 
 
 /* for search bar  */
 header {
-  background-color: #1c1c1c;
+  background-color: #1c1c1c00;
   color: white;
   padding: 1rem;
   display: flex;
@@ -294,12 +323,13 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url(https://assets.nflxext.com/ffe/siteui/vlv3/f1c3c4eb-2fea-42c7-9ebd-1c093bd8a69d/2ca6fba7-5902-4b3b-8f40-bc4e500e84a5/US-en-20230403-popsignuptwoweeks-perspective_alpha_website_large.jpg);
+  background-image: url('../pexels-felix-mittermeier-956999.jpg');
+  /* background-image: url(https://assets.nflxext.com/ffe/siteui/vlv3/f1c3c4eb-2fea-42c7-9ebd-1c093bd8a69d/2ca6fba7-5902-4b3b-8f40-bc4e500e84a5/US-en-20230403-popsignuptwoweeks-perspective_alpha_website_large.jpg); */
   background-size: cover;
   background-position: center;
   z-index: -1;
   background-size: cover;
-  filter: blur(4px);
+  /* filter: blur(4px); */
 }
 
 /* settings */
@@ -363,6 +393,7 @@ table {
   width: 80%;
   max-width: 800px;
   font-size: 18px;
+  background-color: #00000089;
 }
 
 th,
@@ -375,5 +406,5 @@ td {
 table,
 th,
 td {
-  color: white;
+  color: rgb(255, 255, 255);
 }

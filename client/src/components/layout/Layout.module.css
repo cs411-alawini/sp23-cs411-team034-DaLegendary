@@ -1,0 +1,11 @@
+.main {
+  margin: 3rem auto;
+  width: 100%;
+  max-width: 80rem;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
