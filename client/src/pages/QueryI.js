@@ -7,7 +7,7 @@ export default function QueryI() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://127.0.0.1:5000/api/countCategories")
+    Axios.get("http://127.0.0.1:5000/api/countCategories_procedure")
       .then((response) => {
         setCategories(response.data);
       })
@@ -27,7 +27,7 @@ export default function QueryI() {
           <YAxis tick={{ fill: '#ffffff' }}/>
           <Tooltip />
           <Legend />
-          <Bar dataKey="num_favorites" fill="#ffffff" />
+          <Bar dataKey="NumFavorites" fill="#ffffff" />
         </BarChart>
       </div>
     </div>
