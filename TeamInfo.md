@@ -20,8 +20,8 @@
 |   Info      |        Description     |
 | ----------- | ---------------------- |
 |  Title      |       LegendaryYT      |
-| System URL  |      link_to_system    |
-| Video Link  |      link_to_video     |
+| System URL  |      local    |
+| Video Link  | https://youtu.be/Uy1GJ8-h8KM     |
 
 ## Project Summary
 
